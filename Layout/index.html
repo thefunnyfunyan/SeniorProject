@@ -1,0 +1,43 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Project Argus Panoptes</title>
+  <meta name="Senior Project" >
+  <meta name="Brandon Runyan" content="SitePoint">
+  <link rel="stylesheet" href="CSS/styles.css">
+</head>
+<body>
+  <header>
+    <div class="Title_Bar">
+      <h1>ARGUS PANOPTES</h1>
+      <h3>Real Time Asset Tracker</h3>
+    </div>
+    <div class="Menu_Bar">
+    </div>
+  </header>
+  <main>
+    <ul class="Menu_Items">
+      <li>Home</li>
+    </ul>
+    <div class="Map_Region">
+      <div class="Map_Header">
+        <h2>Current Map Location</h2>
+      </div>
+      <div Id="Google_Map"></div>
+      <script>
+        function initMap() {
+          var mapDiv = document.getElementById('Google_Map');
+          var map = new google.maps.Map(mapDiv, {
+            center: {lat: 44.540, lng: -78.546},
+            zoom: 8
+          });
+        }
+      </script>
+  <script src="https://maps.googleapis.com/maps/api/js?callback=initMap"
+      async defer></script>
+    </div>
+  </main>
+</body>
+</html>
