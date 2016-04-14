@@ -1,0 +1,31 @@
+@font-face {
+  src: url('../../../Layout/CSS/GelioFasolada.ttf');
+}
+
+html body{
+  background: #aa6622;
+}
+
+.Title_Bar{
+  background: green;
+  text-align: center;
+  color: white;
+  font-family: 'Gelio';
+  font-size: 20px;
+}
+
+main{
+  width: 1100px;
+  margin: 15px auto;
+}
+
+.Map_Region {
+  text-align: center;
+  border: 5px solid black;
+}
+
+#Google_Map {
+  width: 900px;
+  height: 900px;
+  margin: 10px auto;
+}
