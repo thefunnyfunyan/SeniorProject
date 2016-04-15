@@ -1,15 +1,23 @@
-var express = require('express'),
-    router = express.Router();
+function create(io){
 
-router.get('/', function(req, res, next){
-    res.render('partials/location', {title: 'location'});
-})
+    var express = require('express'),
+        router = express.Router();
 
-router.post('/', function(req, res){
-    var lat = req.body.lat,
-        long = req.body.long;
-    console.log('lat ' + lat + ' long: '+ long);
+    router.get('/', function(req, res, next){
+        res.render('partials/location', {title: 'location'});
+    });
 
-})
+    router.post('/', function(req, res){
+        var lat = req.body.lat,
+            long = req.body.long,
+            userId = req.cookies.userVal;
+        console.log('lat ' + lat + ' long: '+ long);
+        io.emit('device-location', {id: userId, lat: lat, long: long});
+        res.render('partials/location', {title: 'location'});
+    });
 
-module.exports = router;
+    return router;
+
+}
+
+module.exports = create;

@@ -3,8 +3,25 @@
 <div>
     <form action = '/location' method = 'post'>
         Latitude: <input type="text" name="lat"><br>
-        Longitude: <input type="text" name="long"><br>
+        Longitude: <input type="number" name="long"><br>
         <input type="submit" value="Submit">
     </form>
+    <div onclick=geoloc()>
+        geo locate
+    </div>
 </div>
+<script>
+    function geoloc(){
+        alert("clicked");
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(sendLocation(position))
+        }
+    }
+    function sendLocation(position) {
+        $.post('http://localhost:8080/location', {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+        });
+    }
+</script>
 <%include ../Footer.ejs%>
