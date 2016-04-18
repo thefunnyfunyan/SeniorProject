@@ -3,25 +3,33 @@
 <div>
     <form action = '/location' method = 'post'>
         Latitude: <input type="text" name="lat"><br>
-        Longitude: <input type="number" name="long"><br>
+        Longitude: <input type="text" name="long"><br>
         <input type="submit" value="Submit">
     </form>
-    <div onclick=geoloc()>
-        geo locate
+    <div>
+        <p>Your Latituted:</p>
+        <p id="latP">xxxxxxx</p>
+        <p>Your Longitude</p>
+        <p id="longP">xxxxxxxx</p>
+        <div onclick=geoloc()>
+            geo locate
+        </div>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script>
+    var latVal = 39.25;
+    var longVal = -96.6
     function geoloc(){
-        alert("clicked");
-        if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(sendLocation(position))
-        }
-    }
-    function sendLocation(position) {
-        $.post('http://localhost:8080/location', {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-        });
+        setInterval(function(){
+            var add = Math.random()/100;
+
+                latVal -=add;
+                longVal+=add;
+                $.ajax({type: "POST", url: "/location", data: {lat: latVal, long: longVal}, success: function(){console.log("worked")}});
+
+
+        },5000);
     }
 </script>
 <%include ../Footer.ejs%>

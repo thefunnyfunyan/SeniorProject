@@ -17,7 +17,7 @@ function initMap() {
     activePoints.push({'val' : 0, 'Marker':marker})
 }
 
-var socket = io.connect('http://192.168.1.103:8080');
+var socket = io.connect('http://10.131.6.208:8080');
 socket.on('device-location', function(data){
     if(!checkForCookie(data.id))
         createNewMarker(data)
@@ -29,7 +29,7 @@ function updateOldMarker(data){
     for(i=0, len = activePoints.length; i<len; i++){
         if(activePoints[i].val == data.id){
             activePoints[i].Marker.setIcon('./icons/square.svg');
-            activePoints[i].Marker = createNewMarker(data);
+            activePoints[i].Marker = displayPoint(parseFloat(data.lat), parseFloat(data.long));
         }
     }
 }
