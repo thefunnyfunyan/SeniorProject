@@ -1,9 +1,10 @@
 {
-  "name": "untitled1",
-  "version": "0.0.0",
+  "name": "rtat",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node RTAT"
+    "start": "node app.js",
+    "test": "mocha TEST/test.js"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -12,8 +13,19 @@
     "debug": "~2.2.0",
     "ejs": "~2.3.3",
     "express": "~4.13.1",
+    "mocha": "^2.4.5",
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0",
-    "socket.io": "^1.4.5"
-  }
+    "socket.io": "^1.4.5",
+    "sqlite3": "^3.1.3"
+  },
+  "description": "Real Time asset tracker ",
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://www.github.com/thefunnyfunyan/SeniorProject"
+  },
+  "author": "Brandon Runyan",
+  "license": "MIT"
 }

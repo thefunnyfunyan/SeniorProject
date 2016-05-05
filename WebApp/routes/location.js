@@ -3,7 +3,7 @@ function create(io){
     var express = require('express'),
         router = express.Router();
 
-    router.get('/', function(req, res, next){
+    router.get('/', function(req, res){
         res.render('partials/location', {title: 'location'});
     });
 
