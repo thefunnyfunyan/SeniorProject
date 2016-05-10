@@ -1,4 +1,4 @@
-function create(io){
+function create(io, locationController){
 
     var express = require('express'),
         router = express.Router();
@@ -10,10 +10,17 @@ function create(io){
     router.post('/', function(req, res){
         var lat = req.body.lat,
             long = req.body.long,
-            userId = req.cookies.userVal;
-        console.log('lat ' + lat + ' long: '+ long);
-        io.emit('device-location', {id: userId, lat: lat, long: long});
-        res.render('partials/location', {title: 'location'});
+            userId = req.body.userVal;
+        locationController.AddUserLocation(userId, {'lat': lat, 'lng': long}, function(){
+            io.emit('device-location', {id: userId, lat: lat, long: long});
+            res.render('partials/location', {title: 'location'});
+        }, function(){res.end();});
+    });
+
+    router.post('/update', function(req, res){
+        locationController.PostActiveUsersLocations(function(lat, lng, userId){
+            io.emit('device-location', {id: userId, lat: lat, long: lng});
+        })
     });
 
     return router;

@@ -4,7 +4,9 @@ var ejs = require('ejs');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('partials/index', { title: 'RTAT' });
+  res.render('partials/index', { title: 'RTAT'});
 });
+
+  
 
 module.exports = router;

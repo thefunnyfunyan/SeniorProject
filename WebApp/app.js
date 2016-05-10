@@ -8,15 +8,24 @@ var bodyParser = require('body-parser');
 var http = require('http').Server(app);
 var socket = require('socket.io');
 var io = socket(http);
+var unitControllerModule = require('./Controllers/UnitController');
+var userControllerModule = require('./Controllers/UserController');
+var locationControllerModule = require('./Controllers/LocationController');
 
 
 io.on('connection', function(){
     console.log("user has connected...");
 })
 
+
+var unitController = new unitControllerModule('Command', 'Commander');
+var userController = new userControllerModule();
+var locationController = new locationControllerModule(userController, unitController);
 var routes = require('./routes/index');
-var users = require('./routes/users');
-var location = require('./routes/location')(io);
+var users = require('./routes/users')(userController);
+var units = require('./routes/units')(unitController);
+var location = require('./routes/location')(io, locationController);
+
 
 
 // view engine setup
@@ -39,6 +48,7 @@ app.use(function(req, res, next){
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/units', units);
 app.use('/location', location);
 app.use(express.static('public'));
 

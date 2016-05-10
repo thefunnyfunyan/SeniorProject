@@ -2,34 +2,44 @@
 <%include ../Header.ejs%>
 <div>
     <form action = '/location' method = 'post'>
+        Name: <input type="text" name="userVal"><br>
         Latitude: <input type="text" name="lat"><br>
         Longitude: <input type="text" name="long"><br>
         <input type="submit" value="Submit">
     </form>
-    <div>
-        <p>Your Latituted:</p>
-        <p id="latP">xxxxxxx</p>
-        <p>Your Longitude</p>
-        <p id="longP">xxxxxxxx</p>
-        <div onclick=geoloc()>
-            geo locate
-        </div>
-    </div>
+    <div onclick="runDemo()">Demo Time</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script>
-    var latVal = 39.25;
-    var longVal = -96.6
-    function geoloc(){
+    function runDemo(){
+        $.ajax({type: "POST", url: '/units', data: {unitName: '1stPlatoon', leaders: '1LT Will Rector', parentUnitName:'Command'}});
+        $.ajax({type: "POST", url: '/units', data: {unitName: '2ndPlatoon', leaders: '1LT Brandon Runyan', parentUnitName:'Command'}});
+        $.ajax({type: "POST", url: '/units', data: {unitName: '1Pl1stSquad', leaders: '1LT Foo bar' , parentUnitName:'1stPlatoon'}});
+        $.ajax({type: "POST", url: '/units', data: {unitName: '1Pl2ndSquad', leaders: '1LT Ham Fist', parentUnitName:'1stPlatoon'}});
+        $.ajax({type: "POST", url: '/units', data: {unitName: '2Pl1stSquad', leaders: '1LT Sterling Archer', parentUnitName:'2ndPlatoon'}});
+        $.ajax({type: "POST", url: '/units', data: {unitName: '2Pl2ndSquad', leaders: '1LT Bob Bensen', parentUnitName:'2ndPlatoon'}});
+
+        $.ajax({type: 'POST', url: '/users', data: {userName: '1LT Will Rector'}})
+        $.ajax({type: 'POST', url: '/users', data: {userName: '1LT Foo bar'}})
+        $.ajax({type: 'POST', url: '/users', data: {userName: '1LT Ham Fist'}})
+        $.ajax({type: 'POST', url: '/users', data: {userName: '1LT Sterling Archer'}})
+        $.ajax({type: 'POST', url: '/users', data: {userName: '1LT Bob Bensen'}})
+        $.ajax({type: 'POST', url: '/users', data: {userName: '1LT Brandon Runyan'}})
+
+
+        var add = .0002;
+        var minus = .0002;
         setInterval(function(){
-            var add = Math.random()/100;
+            $.ajax({type: 'POST', url: '/location', data: {lat: 39.205215-minus, long: -96.554436+add, userVal: '1LT Will Rector'}});
+            $.ajax({type: 'POST', url: '/location', data: {lat: 39.205415-minus, long: -96.554436+add, userVal: '1LT Foo bar'}});
+            $.ajax({type: 'POST', url: '/location', data: {lat: 39.205215-minus, long: -96.554636+add, userVal: '1LT Ham Fist'}});
+            $.ajax({type: 'POST', url: '/location', data: {lat: 39.205615-minus, long: -96.554736+add, userVal: '1LT Sterling Archer'}});
+            $.ajax({type: 'POST', url: '/location', data: {lat: 39.205715-minus, long: -96.554736+add, userVal: '1LT Bob Bensen'}});
+            $.ajax({type: 'POST', url: '/location', data: {lat: 39.205515-minus, long: -96.554936+add, userVal: '1LT Brandon Runyan'}});
+            add += .0002;
+            minus += .0001;
+        }, 5000)
 
-                latVal -=add;
-                longVal+=add;
-                $.ajax({type: "POST", url: "/location", data: {lat: latVal, long: longVal}, success: function(){console.log("worked")}});
-
-
-        },5000);
     }
 </script>
 <%include ../Footer.ejs%>
