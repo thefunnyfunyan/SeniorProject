@@ -15,7 +15,7 @@ describe('Testing Unit Controller', function(){
     beforeEach(function(){
         ControllerModule = require('../Controllers/UnitController');
         UnitController = new ControllerModule("Command", "Commander");
-        UnitController.AddUnitToParent("1st Platoon", ["Lt. Foo", "SFC Bar"], "Command");
+        UnitController.AddUnitToParent("1st Platoon", "Lt. Foo", "Command");
     })
 
     it('UnitController should exist with Command Element', function(){
@@ -27,7 +27,7 @@ describe('Testing Unit Controller', function(){
     it('Should Return Command Unit', function(){
         var commandUnit = UnitController.GetUnit("Command");
         assert.equal("Command", commandUnit.Name, 'names are equal');
-        assert.deepEqual(["Commander"], commandUnit.Leaders, 'leaders are equal' )
+        assert.deepEqual("Commander", commandUnit.Leaders, 'leaders are equal' )
     });
 
 
@@ -39,7 +39,7 @@ describe('Testing Unit Controller', function(){
 
     it('Should return leader of command group and immediate chile unit', function(){
         var Leaders = UnitController.GetUnitLeaders();
-        var ExpectedObj = ["Commander", "Lt. Foo", "SFC Bar"];
+        var ExpectedObj = ["Commander", "Lt. Foo"];
         assert.deepEqual(Leaders, ExpectedObj)
     });
 
@@ -54,28 +54,28 @@ describe('Testing Unit Controller', function(){
     })
 
     it('Should return leaders of all Active Units', function(){
-        UnitController.AddUnitToParent('2nd Platoon', ['Lt. Bofa', 'SSG Deznutts'],'Command');
-        UnitController.AddUnitToParent('3rd Platoon', ['Lt. Hunt', 'SPC Mike'], 'Command');
-        UnitController.AddUnitToParent('WPN Platoon', ['Lt. Daniels', 'SFC Witt'], 'Command');
-        UnitController.SetUnitInactive('3rd Platoon');
+        UnitController.AddUnitToParent('2nd Platoon', 'Lt. Bofa' ,'Command');
+        UnitController.AddUnitToParent('3rd Platoon', 'Lt. Hunt', '2nd Platoon');
+        UnitController.AddUnitToParent('WPN Platoon', 'Lt. Daniels', 'Command');
+        UnitController.SetSingleActiveUnit('Command');
         var ldrList = UnitController.GetUnitLeaders();
-        var expectedList = ["Commander", "Lt. Foo", "SFC Bar" ,'Lt. Bofa', 'SSG Deznutts','Lt. Daniels', 'SFC Witt'];
+        var expectedList = ["Commander", "Lt. Foo", 'Lt. Bofa','Lt. Daniels'];
         assert.deepEqual(expectedList, ldrList);
     })
 
     it('Should return only one unit as Active', function(){
-        UnitController.AddUnitToParent('2nd Platoon', ['Lt. Bofa', 'SSG Deznutts'],'Command');
-        UnitController.AddUnitToParent('3rd Platoon', ['Lt. Hunt', 'SPC Mike'], 'Command');
-        UnitController.AddUnitToParent('WPN Platoon', ['Lt. Daniels', 'SFC Witt'], 'Command');
+        UnitController.AddUnitToParent('2nd Platoon', 'Lt. Bofa','Command');
+        UnitController.AddUnitToParent('3rd Platoon', 'Lt. Hunt', 'Command');
+        UnitController.AddUnitToParent('WPN Platoon', 'Lt. Daniels', 'Command');
         UnitController.SetSingleActiveUnit('3rd Platoon');
         var ldrList = UnitController.GetUnitLeaders();
-        assert.deepEqual( ['Lt. Hunt', 'SPC Mike'], ldrList);
+        assert.deepEqual( ['Lt. Hunt'], ldrList);
     })
 
     it('Should return all units under Commander',function(){
-        UnitController.AddUnitToParent('3rd Platoon', ['Lt. Hunt', 'SPC Mike'], 'Command');
+        UnitController.AddUnitToParent('3rd Platoon', 'Lt. Hunt', 'Command');
         UnitController.SetAllChildUnitsActive('Command');
-        assert.deepEqual(["Commander","Lt. Foo", "SFC Bar", 'Lt. Hunt', 'SPC Mike'],UnitController.GetUnitLeaders() );
+        assert.deepEqual(["Commander","Lt. Foo",  'Lt. Hunt'],UnitController.GetUnitLeaders() );
     })
 
     it('Should Return Commad Unit', function(){
@@ -103,8 +103,8 @@ describe('Testing User Controller', function(){
         assert(UserController);
     })
 
-    it('UserController List should have 1 User', function(){
-        assert.deepEqual(UserController.UserList[0].Name, "PFC Snuffy")
+    it('UserController List should have 2 Users', function(){
+        assert.deepEqual(UserController.UserList[1].Name, "PFC Snuffy")
     })
 
     it('UserController should return PFC Snuffy in all of his glory', function(){
@@ -169,61 +169,66 @@ describe('Testing Location Controller',function(){
 
         LocationController.AddUserLocation('PFC Snuffy', {"lat": 1234.1234, "lng": 4321.4321}, function(){
             Snuffy = 1;
+        }, function(){
+            Snuffy = 0;
         });
         assert(Snuffy,'snuffy');
 
         LocationController.AddUserLocation('Commander', {"lat": 1234.1234, "lng": 4321.4321}, function(){
             foo = 0;
+        }, function(){
+            foo = 1;
         });
         assert(commander,'commander');
 
         LocationController.AddUserLocation('PFC Foo', {"lat": 1234.1234, "lng": 4321.4321}, function(){
             commander = 0;
+        }, function(){
+            commander = 1;
         });
         assert(foo,'foo');
     });
 
     it('Should call callback for each location for all active leaders', function(){
         UserController.AddUser('pfc foo');
-        UserController.AddUser('pfc bar');
-        UnitController.AddUnitToParent('FireTeam', ['pfc foo', 'pfc bar'], 'Command');
+        UnitController.AddUnitToParent('FireTeam', 'pfc foo', 'Command');
         UnitController.SetSingleActiveUnit('FireTeam');
         var fooLoc = 0,
-            barLoc = 0,
             comLoc = 0;
         for(var i=0;i<5;i++){
             LocationController.AddUserLocation('pfc foo', {"lat": i, "lng": 1}, function(){
                 fooLoc +=1;
-            });
-            LocationController.AddUserLocation('pfc bar', {"lat": 2*i, "lng": 1}, function(){
-                barLoc +=1;
+            }, function(){
+                fooLoc -=1;
             });
             LocationController.AddUserLocation('Commander', {"lat": i, "lng": 1}, function(){
                 comLoc +=1;
+            }, function(){
+                comLoc -=1;
             })
         };
         assert.equal(5, fooLoc, 'foo calback called');
-        assert.equal(5, barLoc, 'bar calback called');
-        assert.equal(0, comLoc, 'com calback called');
+        assert.equal(-5, comLoc, 'com calback called');
     });
 
-    it('Should Call calback for posting active user locations', function(){
+    it('Should return only list of Active Users', function(){
         UserController.AddUser('pfc foo');
-        UserController.AddUser('pfc bar');
-        UnitController.AddUnitToParent('FireTeam', ['pfc foo', 'pfc bar'], 'Command');
+        UnitController.AddUnitToParent('FireTeam', 'pfc foo', 'Command');
         UnitController.SetSingleActiveUnit('FireTeam');
-        var postCount = 0;
-        for(var i=0;i<5;i++){
-            LocationController.AddUserLocation('pfc foo', {"lat": i, "lng": 1}, function(){
-            });
-            LocationController.AddUserLocation('pfc bar', {"lat": 2*i, "lng": 1}, function(){
-            });
-            LocationController.AddUserLocation('Commander', {"lat": i, "lng": 1}, function(){
-            })
+        for(var i=0;i<10;i++){
+            LocationController.AddUserLocation('pfc foo', {"lat": i, "lng": 1}, function(){}, function(){});
+            LocationController.AddUserLocation('Commander', {"lat": i, "lng": 1}, function(){}, function(){});
         }
-        LocationController.PostActiveUsersLocations(function(lat, lng){
-            postCount+=1;
+        var count = 0
+        LocationController.PostActiveUsersLocations(function(){
+            count+=1;
+        });
+        assert.equal(count, 10);
+        UnitController.SetSingleActiveUnit('Command');
+        count = 0;
+        LocationController.PostActiveUsersLocations(function(){
+            count+=1;
         })
-        assert.equal(postCount, 10);
-    });
+        assert.equal(20, count);
+    })
 });

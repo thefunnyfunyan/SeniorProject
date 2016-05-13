@@ -5,7 +5,9 @@
 
 var map,
     io = require('./socket.io-1.4.5'),
-    activePoints = [];
+    activePoints = [],
+    allMarkers = [],
+    allLines = [];
 
 function initMap() {
     var mapDiv = document.getElementById('Google_Map');
@@ -13,8 +15,6 @@ function initMap() {
         center: {lat: 39.1836, lng: -96.5717},
         zoom: 14
     });
-    var marker = displayPoint(39.1836, -96.5717);
-    activePoints.push({'val' : 0, 'Marker':marker})
 }
 
 var socket = io.connect('localhost:8080');
@@ -23,7 +23,20 @@ socket.on('device-location', function(data){
         createNewMarker(data)
     else
         updateOldMarker(data)
-})
+});
+
+socket.on('clear-map', function(){
+    for(var i=0,l=allMarkers.length;i<l;i++){
+        allMarkers[i].setMap(null);
+    }
+    for(var j=0,jl=allLines.length;j<jl;j++){
+        allLines[j].setMap(null);
+    }
+    allLines = [];
+    allMarkers = [];
+});
+
+socket.on('update-Leaderboard', function(data){updateLeaderBoard(data.Commander, data.Leaders)});
 
 function updateOldMarker(data){
     for(i=0, len = activePoints.length; i<len; i++){
@@ -44,6 +57,7 @@ function createLine(oldData, newData){
         strokeOpacity: 1.0,
         strokeWeight: 2
     });
+    allLines.push(newLine);
     newLine.setMap(map)
 }
 
@@ -65,12 +79,26 @@ function displayPoint(lat, long){
         position: {lat: lat, lng: long},
         map: map
     });
+    allMarkers.push(marker);
     return marker
 }
 
+function updateLeaderBoard(Commander, Leaders){
+    var commandName = document.getElementsByClassName('Parent_Unit')[0].childNodes[1]
+    commandName.innerHTML = Commander;
+    commandName.setAttribute('onclick', 'addShowing("'+commandName+'")')
+    var list = document.getElementById('ChildUnitList');
+    list.innerHTML = '';
+    for(var i=0,l=Leaders.length;i<l;i++){
+        var li = document.createElement('li');
+        li.appendChild(document.createTextNode(Leaders[i]));
+        li.setAttribute('onclick', 'modifyShowing("'+Leaders[i]+'")');
+        list.appendChild(li);
+    }
+
+}
+
 initMap();
-
-
 
 
 },{"./socket.io-1.4.5":2}],2:[function(require,module,exports){

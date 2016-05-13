@@ -1,4 +1,4 @@
-function users(userController){
+function users(userController, unitController, io){
   var express = require('express');
   var router = express.Router();
 
@@ -8,6 +8,18 @@ function users(userController){
     userController.AddUser(userName);
     res.end();
   });
+  
+  router.post('/All', function(req, res){
+    unitController.SetAllUnitsActive();
+    var ldrList = unitController.GetUnitLeaders();
+    var unitList = [];
+    for(var i=0;i<ldrList.length;i++){
+      if(unitController.GetUnitNameOfLeader(ldrList[i])!='Command')
+        unitList.push(unitController.GetUnitNameOfLeader(ldrList[i]));
+    }
+    io.emit('update-Leaderboard', {Commander: 'Command', Leaders: unitList});
+    res.end();
+  })
 
   return router;
 }

@@ -25,7 +25,6 @@ UserController.prototype.AddLocation = function(UserName, location){
 
 UserController.prototype.GetAllUserLocations = function(UserName){
     var user = this.GetUser(UserName);
-    console.log(UserName)
     if(null == user) return [];
     return user.Locations;
 }

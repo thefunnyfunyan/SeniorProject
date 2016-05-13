@@ -13,14 +13,15 @@ function create(io, locationController){
             userId = req.body.userVal;
         locationController.AddUserLocation(userId, {'lat': lat, 'lng': long}, function(){
             io.emit('device-location', {id: userId, lat: lat, long: long});
-            res.render('partials/location', {title: 'location'});
-        }, function(){res.end();});
+            res.end();
+        }, function(){
+            console.log(userId);
+            res.end();});
     });
 
     router.post('/update', function(req, res){
-        locationController.PostActiveUsersLocations(function(lat, lng, userId){
-            io.emit('device-location', {id: userId, lat: lat, long: lng});
-        })
+        io.emit('clear-map');
+        res.end();
     });
 
     return router;

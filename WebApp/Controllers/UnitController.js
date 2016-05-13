@@ -37,7 +37,14 @@ UnitController.prototype.AddUnitToParent = function(UnitName, Leaders, ParentUni
 UnitController.prototype.GetUnitLeaders = function(){
     LeaderList =[];
     for(var i=0, l = this.Units.length; i<l; i++){
-        LeaderList.push(this.Units[i].Leaders)
+        if(this.Units[i].Active == 1){
+            LeaderList.push(this.Units[i].Leaders);
+            for(var ii=0, ll = this.Units[i].ChildUnits.length; ii<ll;ii++){
+                var child = this.GetUnit(this.Units[i].ChildUnits[ii]);
+                if(child.Active == 0)
+                    LeaderList.push(child.Leaders)
+            }
+        }
     }
     return LeaderList
 };
@@ -59,6 +66,7 @@ UnitController.prototype.SetSingleActiveUnit = function(UserName){
 UnitController.prototype.SetAllChildUnitsActive = function(parentUnit){
     var unit = this.GetUnit(parentUnit)
     if(null == unit) return;
+    this.SetSingleActiveUnit(parentUnit);
     for(var i=0,l=unit.ChildUnits.length;i<l;i++){
         var childUnit = this.GetUnit(unit.ChildUnits[i]);
         childUnit.Active = 1;
@@ -77,11 +85,13 @@ UnitController.prototype.GetUnitActiveStatus = function(UnitName){
     if(null==unit)
         return 0
     return unit.Active;
+};
+
+UnitController.prototype.SetAllUnitsActive = function(){
+    for(var i=0;i<this.Units.length;i++){
+        this.Units[i].Active = 1;
+    }
 }
 
-UnitController.prototype.AddUserToUnit = function(UnitName, UserName){
-    var unit = this.GetUnit(UserName);
-    unit.Leaders.push(UserName);
-}
 
 module.exports = exports = UnitController;

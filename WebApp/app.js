@@ -21,9 +21,9 @@ io.on('connection', function(){
 var unitController = new unitControllerModule('Command', 'Commander');
 var userController = new userControllerModule();
 var locationController = new locationControllerModule(userController, unitController);
-var routes = require('./routes/index');
-var users = require('./routes/users')(userController);
-var units = require('./routes/units')(unitController);
+var routes = require('./routes/index')(unitController);
+var users = require('./routes/users')(userController, unitController, io);
+var units = require('./routes/units')(io, unitController);
 var location = require('./routes/location')(io, locationController);
 
 

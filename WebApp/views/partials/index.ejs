@@ -11,20 +11,31 @@
         <script src="javascripts/index.js"></script>
     </div>
     <div class="Unit_Region">
-        <h4 class="Unit_Leader">Leader</h4>
+        <h4 class="Unit_Leader" onclick="restart()">Leader</h4>
         <div class="Unit_Breakdown">
             <div class="Parent_Unit">
-                <p>Higher Unit Name</p>
+                <p onclick="addShowing('<%=Command%>')"><%=Command%></p>
             </div>
             <div class="Child_Units">
-                <ul>
-                    <li>Lower Unit 1</li>
-                    <li>Lower Unit 2</li>
-                    <li>Lower Unit 3</li>
-                    <li>Lower Unit 4</li>
+                <ul id="ChildUnitList">
+                    <%ChildUnits.forEach(function(unitName){%>
+                    <li onclick="modifyShowing('<%=unitName%>')"><%=unitName%></li>
+                    <%});%>
                 </ul>
             </div>
         </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        function modifyShowing(unit){
+            $.ajax({type: 'POST', url: '/units/' + unit});
+        }
+        function addShowing(unit){
+            $.ajax({type: 'POST', url: '/units/' + unit});
+        }
+        function restart(){
+            $.ajax({type: 'POST', url: '/users/All'});
+        }
+        </script>
 </main>
 <%include ../Footer.ejs%>

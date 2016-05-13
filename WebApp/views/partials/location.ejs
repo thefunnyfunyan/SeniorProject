@@ -7,7 +7,9 @@
         Longitude: <input type="text" name="long"><br>
         <input type="submit" value="Submit">
     </form>
-    <div onclick="runDemo()">Demo Time</div>
+    <div onclick="runDemo()">Add Units</div>
+    <div onclick="addUsers()">Add Users</div>
+    <div onclick="startDemo()">Start Movement</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script>
@@ -18,6 +20,9 @@
         $.ajax({type: "POST", url: '/units', data: {unitName: '1Pl2ndSquad', leaders: '1LT Ham Fist', parentUnitName:'1stPlatoon'}});
         $.ajax({type: "POST", url: '/units', data: {unitName: '2Pl1stSquad', leaders: '1LT Sterling Archer', parentUnitName:'2ndPlatoon'}});
         $.ajax({type: "POST", url: '/units', data: {unitName: '2Pl2ndSquad', leaders: '1LT Bob Bensen', parentUnitName:'2ndPlatoon'}});
+    }
+
+    function addUsers(){
 
         $.ajax({type: 'POST', url: '/users', data: {userName: '1LT Will Rector'}})
         $.ajax({type: 'POST', url: '/users', data: {userName: '1LT Foo bar'}})
@@ -25,8 +30,9 @@
         $.ajax({type: 'POST', url: '/users', data: {userName: '1LT Sterling Archer'}})
         $.ajax({type: 'POST', url: '/users', data: {userName: '1LT Bob Bensen'}})
         $.ajax({type: 'POST', url: '/users', data: {userName: '1LT Brandon Runyan'}})
+    }
 
-
+    function startDemo(){
         var add = .0002;
         var minus = .0002;
         setInterval(function(){
@@ -39,7 +45,6 @@
             add += .0002;
             minus += .0001;
         }, 5000)
-
     }
 </script>
 <%include ../Footer.ejs%>

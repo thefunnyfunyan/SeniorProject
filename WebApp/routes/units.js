@@ -1,4 +1,4 @@
-function units(unitController){
+function units(io, unitController){
     var express = require('express');
     var router = express.Router();
 
@@ -17,8 +17,25 @@ function units(unitController){
 
     router.post('/:UnitName', function(req, res, next){
         unitController.SetSingleActiveUnit(req.params.UnitName);
+        var ldrList = unitController.GetUnitLeaders();
+        var unitList = [];
+        for(var i=0;i<ldrList.length;i++){
+            if(unitController.GetUnitNameOfLeader(ldrList[i])!=req.params.UnitName)
+                unitList.push(unitController.GetUnitNameOfLeader(ldrList[i]));
+        }
+        var CommandUnit = req.params.UnitName;
+        io.emit('update-Leaderboard', {Commander: CommandUnit, Leaders: unitList});
+        io.emit('clear-map');
         res.end();
-    })
+    });
+
+    router.post('/:UnitName/All', function(req, res, next){
+        unitController.SetAllChildUnitsActive(req.params.UnitName);
+        var ldrList = unitController.GetUnitLeaders();
+        console.log(ldrList);
+        io.emit('update-Leaderboard', {Commander: req.params.UnitName, Leaders: ldrList});
+        res.end();
+    });
 
     return router;
 }
