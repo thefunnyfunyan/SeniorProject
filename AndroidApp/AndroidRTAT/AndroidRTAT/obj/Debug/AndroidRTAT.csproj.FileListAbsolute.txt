@@ -1,0 +1,15 @@
+C:\Users\Brandon\SeniorProject\AndroidApp\AndroidRTAT\AndroidRTAT\bin\Debug\AndroidRTAT.dll
+C:\Users\Brandon\SeniorProject\AndroidApp\AndroidRTAT\AndroidRTAT\bin\Debug\AndroidRTAT.pdb
+C:\Users\Brandon\SeniorProject\AndroidApp\AndroidRTAT\AndroidRTAT\bin\Debug\AndroidRTAT.AndroidRTAT.apk
+C:\Users\Brandon\SeniorProject\AndroidApp\AndroidRTAT\AndroidRTAT\bin\Debug\AndroidRTAT.AndroidRTAT-Signed.apk
+C:\Users\Brandon\SeniorProject\AndroidApp\AndroidRTAT\AndroidRTAT\obj\Debug\AndroidRTAT.csprojResolveAssemblyReference.cache
+C:\Users\Brandon\SeniorProject\AndroidApp\AndroidRTAT\AndroidRTAT\obj\Debug\AndroidRTAT.dll
+C:\Users\Brandon\SeniorProject\AndroidApp\AndroidRTAT\AndroidRTAT\obj\Debug\AndroidRTAT.pdb
+C:\Users\Brandon\SeniorProject\AndroidApp\AndroidRTAT\AndroidRTAT\obj\Debug\android\bin\AndroidRTAT.AndroidRTAT.apk
+C:\Users\Brandon\SeniorProject\AndroidApp\AndroidRTAT\AndroidRTAT\obj\Debug\res\layout\main.xml
+C:\Users\Brandon\SeniorProject\AndroidApp\AndroidRTAT\AndroidRTAT\obj\Debug\res\values\strings.xml
+C:\Users\Brandon\SeniorProject\AndroidApp\AndroidRTAT\AndroidRTAT\obj\Debug\res\drawable\icon.png
+C:\Users\Brandon\SeniorProject\AndroidApp\AndroidRTAT\AndroidRTAT\obj\Debug\R.cs.flag
+C:\Users\Brandon\SeniorProject\AndroidApp\AndroidRTAT\AndroidRTAT\obj\Debug\uploadflags.txt
+C:\Users\Brandon\SeniorProject\AndroidApp\AndroidRTAT\AndroidRTAT\obj\Debug\AndroidRTAT.dll.mdb
+C:\Users\Brandon\SeniorProject\AndroidApp\AndroidRTAT\AndroidRTAT\bin\Debug\AndroidRTAT.dll.mdb

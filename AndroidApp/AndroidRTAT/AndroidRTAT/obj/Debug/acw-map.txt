@@ -1,0 +1,4 @@
+AndroidRTAT.MainActivity, AndroidRTAT;md5966d468b7df9e95b4de5cff13d31dc5e.MainActivity
+AndroidRTAT.MainActivity, AndroidRTAT, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5966d468b7df9e95b4de5cff13d31dc5e.MainActivity
+AndroidRTAT.MainActivity;md5966d468b7df9e95b4de5cff13d31dc5e.MainActivity
+androidrtat.MainActivity;md5966d468b7df9e95b4de5cff13d31dc5e.MainActivity

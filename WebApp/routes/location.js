@@ -11,11 +11,11 @@ function create(io, locationController){
         var lat = req.body.lat,
             long = req.body.long,
             userId = req.body.userVal;
+        console.log(lat + " " + long + " " + userId);
         locationController.AddUserLocation(userId, {'lat': lat, 'lng': long}, function(){
             io.emit('device-location', {id: userId, lat: lat, long: long});
             res.end();
         }, function(){
-            console.log(userId);
             res.end();});
     });
 
