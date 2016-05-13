@@ -22,6 +22,7 @@ function create(io, locationController){
     router.post('/update', function(req, res){
         io.emit('clear-map');
         res.end();
+        
     });
 
     return router;
